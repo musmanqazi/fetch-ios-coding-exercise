@@ -10,11 +10,11 @@ import UIKit
 class HomeController: UIViewController {
 
     @IBOutlet var tableView : UITableView!
-    var meal : Meal?
+    var meals : [Meal] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -22,7 +22,7 @@ class HomeController: UIViewController {
     }
     
     func getDessertData() {
-        let url = URL(string: "https://themealdb.com/api/json/v1/1/lookup.php?i=53049")!
+        let url = URL(string: "https://themealdb.com/api/json/v1/1/filter.php?c=Dessert")!
         let request = URLRequest(url: url)
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -32,7 +32,7 @@ class HomeController: UIViewController {
                 let decoder = JSONDecoder()
                 do {
                     let jsonResponse = try decoder.decode(Response.self, from: data)
-                    self.meal = jsonResponse.meals.first
+                    self.meals = jsonResponse.meals
                     OperationQueue.main.addOperation {
                         self.tableView.reloadData()
                     }
@@ -49,8 +49,9 @@ class HomeController: UIViewController {
 
 struct Meal : Codable {
     var strMeal : String
-    var strArea : String
     var strMealThumb : String
+    var idMeal : String
+//    var strArea : String
 }
 
 struct Response : Codable {
@@ -59,7 +60,7 @@ struct Response : Codable {
 
 extension HomeController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return meal == nil ? 0 : 1
+        return meals.count
     }
 }
 
@@ -67,9 +68,10 @@ extension HomeController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
+        let meal = meals[indexPath.row]
         
-        cell.nameOfDessert.text = meal!.strMeal
-//        cell.countryOfOrigin.text = meal!.strArea
+        cell.nameOfDessert.text = meal.strMeal
+//        cell.countryOfOrigin.text = meal.strArea
         let countryFlags: [String: String] = [
             "Afghanistani": "🇦🇫", "Albanian": "🇦🇱", "Algerian": "🇩🇿", "Andorran": "🇦🇩", "Angolan": "🇦🇴",
             "Antiguan": "🇦🇬", "Argentinian": "🇦🇷", "Armenian": "🇦🇲", "Australian": "🇦🇺", "Austrian": "🇦🇹",
@@ -110,17 +112,17 @@ extension HomeController: UITableViewDataSource {
             "Vatican": "🇻🇦", "Venezuelan": "🇻🇪", "Vietnamese": "🇻🇳", "Yemeni": "🇾🇪", "Zambian": "🇿🇲", "Zimbabwean": "🇿🇼"
         ]
         
-        if let emojiFlag = countryFlags[meal!.strArea] {
-            let countryWithFlag = emojiFlag + " " + meal!.strArea
-            cell.countryOfOrigin.text = countryWithFlag
-        } else {
-            cell.countryOfOrigin.text = meal!.strArea // Fallback to country name if emoji flag is not available
-        }
+//        if let emojiFlag = countryFlags[meal.strArea] {
+//            let countryWithFlag = emojiFlag + " " + meal.strArea
+//            cell.countryOfOrigin.text = countryWithFlag
+//        } else {
+//            cell.countryOfOrigin.text = meal.strArea // Fallback to country name if emoji flag is not available
+//        }
         
         // Hide the ingredients count label for now since we're not using it
 //        cell.numberOfIngredients.isHidden = true
         
-        if let url = URL(string: meal!.strMealThumb + "/preview") {
+        if let url = URL(string: meal.strMealThumb + "/preview") {
             DispatchQueue.global().async {
                 if let data = try? Data(contentsOf: url) {
                     OperationQueue.main.addOperation {
