@@ -14,7 +14,7 @@ class CustomTableViewCell : UITableViewCell {
     @IBOutlet weak var numberOfIngredients : UILabel!
     @IBOutlet weak var countryOfOrigin : UILabel!
     
-    var task : URLSessionDataTask?
+    var currentImageURL : String?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

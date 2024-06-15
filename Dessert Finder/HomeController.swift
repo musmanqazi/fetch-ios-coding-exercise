@@ -6,11 +6,129 @@
 //
 
 import UIKit
+import CryptoKit
+
+class MyConnection {
+    static func loadData(
+        from url: URL,
+        completion: @escaping (Data?, URLResponse?, Error?) -> ()
+    )
+    {
+        let request = URLRequest(url: url)
+        let task = URLSession.shared.dataTask(with: request)
+        {
+            (data, response, error) in
+            
+            OperationQueue.main.addOperation {
+                completion(data, response, error)
+            }
+        }
+        task.resume()
+    }
+}
+
+class MyPersistence
+{
+    static func stringToHashString(_ s: String) -> String
+    {
+        let data = s.data(using: String.Encoding.utf8)!
+        let hash = SHA512.hash(data: data)
+        let hashString = hash.map {
+            String(format: "%02hhc", $0)
+        }.joined()
+        
+        return hashString
+    }
+        
+    func makeFileCacheURL(_ fileKey: String) -> URL
+    {
+        let cacheDirs = FileManager.default.urls(for: FileManager.SearchPathDirectory.cachesDirectory, in: FileManager.SearchPathDomainMask.userDomainMask)
+        
+        let cacheDir = cacheDirs.first!
+        let fileNameHash = MyPersistence.stringToHashString(fileKey)
+        let cachePath = cacheDir.appendingPathComponent(fileNameHash)
+        
+        return cachePath
+    }
+    
+    func isFileCache(fileKey: String) -> Bool
+    {
+        let cacheURL = self.makeFileCacheURL(fileKey)
+        let exists = FileManager.default.fileExists(atPath: cacheURL.path)
+        return exists
+    }
+    
+    func saveFileToCache(fileKey: String, fileData: Data?, overwrite: Bool = false)
+    {
+        if let fileDataSafe = fileData
+        {
+            let cacheURL = self.makeFileCacheURL(fileKey)
+            
+            if ( overwrite == false && self.isFileCache(fileKey: fileKey) )
+            {
+                return
+            }
+            
+            do
+            {
+                try fileDataSafe.write(to: cacheURL, options: NSData.WritingOptions.atomic)
+                print("File was saved to cache: \(cacheURL)")
+            }
+            catch
+            {
+                print("Error: \(error)")
+            }
+        }
+    }
+    
+    func loadFileFromCache(fileKey: String) -> Data?
+    {
+        let cacheURL = self.makeFileCacheURL(fileKey)
+        
+        do
+        {
+            let fileData = try Data(contentsOf: cacheURL)
+            print("Loading file data directly from cacheURL: \(cacheURL)")
+            return fileData
+        }
+        catch
+        {
+            return nil
+        }
+    }
+    
+    func loadFileToCache(urlAsString: String, completion: @escaping (Data) -> () )
+    {
+        let fileURL = URL(string: urlAsString)!
+        
+        MyConnection.loadData(from: fileURL)
+        {
+            (data, repsonse, error) in
+            
+            if let theError = error {
+                print("error loading file: \(theError)")
+            }
+            else if (data != nil) {
+                self.saveFileToCache(fileKey: urlAsString, fileData: data)
+                print("Loaded from URL \(urlAsString) and saved to cache.")
+                OperationQueue.main.addOperation {
+                    completion(data!)
+                }
+            }
+        }
+    }
+
+}
 
 class HomeController: UIViewController {
 
     @IBOutlet var tableView : UITableView!
+    
     var meals : [Meal] = []
+    
+    var myPersistence = MyPersistence()
+    
+    var imageCache = NSCache<NSString, UIImage>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +198,7 @@ class HomeController: UIViewController {
 
 struct Meal : Codable {
     var strMeal : String
-    var strMealThumb : String
+    var strMealThumb : String?
     var idMeal : String
     var strArea : String?
 }
@@ -103,17 +221,66 @@ extension HomeController: UITableViewDataSource {
         
         cell.nameOfDessert.text = meal.strMeal
         
-        if cell.thumbnailImage.image == nil {
-            if let url = URL(string: meal.strMealThumb + "/preview") {
-                DispatchQueue.global().async {
-                    if let data = try? Data(contentsOf: url) {
-                        OperationQueue.main.addOperation {
-                            cell.thumbnailImage.image = UIImage(data: data)
+//        if let url = URL(string: meal.strMealThumb! + "/preview") {
+//            DispatchQueue.global().async {
+//                if let data = try? Data(contentsOf: url) {
+//                    OperationQueue.main.addOperation {
+//                        cell.thumbnailImage.image = UIImage(data: data)
+//                    }
+//                }
+//            }
+//        }
+        
+//        meal.strMealThumb = meal.strMealThumb! + "/preview"
+//        
+//        if let urlAsString = meal.strMealThumb {
+//            if (self.myPersistence.isFileCache(fileKey: urlAsString) == false) {
+//                self.myPersistence.loadFileToCache(urlAsString: urlAsString) {
+//                    (fileData) in
+//                    OperationQueue.main.addOperation {
+//                        cell.thumbnailImage.image = UIImage(data: fileData)
+//                        print("Success! Loaded file from URL and saved to cache for \(meal.strMeal).")
+//                    }
+//                }
+//            } else {
+//                if let data = self.myPersistence.loadFileFromCache(fileKey: urlAsString) {
+//                    cell.thumbnailImage.image = UIImage(data: data)
+//                    print("Success! Loaded file directly from cache for \(meal.strMeal).")
+//                } else {
+//                    print("Error! Failed to load file from cache.")
+//                }
+//            }
+//        }
+        
+            cell.thumbnailImage.image = nil
+            cell.currentImageURL = meal.strMealThumb
+
+            guard let mealThumbURL = meal.strMealThumb else {
+                return cell
+            }
+            
+            if let cachedImage = imageCache.object(forKey: mealThumbURL as NSString) {
+                if cell.currentImageURL == meal.strMealThumb {
+                    cell.thumbnailImage.image = cachedImage
+                    print("Success! Loaded file directly from cache for \(meal.strMeal).")
+                }
+            } else {
+                if let url = URL(string: mealThumbURL) {
+                    MyConnection.loadData(from: url) { (data, response, error) in
+                        if let data = data, let image = UIImage(data: data) {
+                            self.imageCache.setObject(image, forKey: mealThumbURL as NSString)
+                            if cell.currentImageURL == meal.strMealThumb {
+                                DispatchQueue.main.async {
+                                    cell.thumbnailImage.image = image
+                                    print("Success! Loaded file from URL and saved to cache for \(meal.strMeal).")
+                                }
+                            }
+                        } else {
+                            print("Error loading image: \(String(describing: error))")
                         }
                     }
                 }
             }
-        }
 
         let countryFlags: [String: String] = [
             "Afghanistani": "🇦🇫", "Albanian": "🇦🇱", "Algerian": "🇩🇿", "Andorran": "🇦🇩", "Angolan": "🇦🇴",
