@@ -13,6 +13,7 @@ class CustomTableViewCell : UITableViewCell {
     @IBOutlet weak var nameOfDessert : UILabel!
     @IBOutlet weak var numberOfIngredients : UILabel!
     @IBOutlet weak var countryOfOrigin : UILabel!
+    @IBOutlet weak var activityIndicator : UIActivityIndicatorView!
     
     var currentImageURL : String?
     

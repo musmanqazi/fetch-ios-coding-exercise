@@ -220,68 +220,8 @@ extension HomeController: UITableViewDataSource {
         let meal = meals[indexPath.row]
         
         cell.nameOfDessert.text = meal.strMeal
+        cell.countryOfOrigin.isHidden = true
         
-//        if let url = URL(string: meal.strMealThumb! + "/preview") {
-//            DispatchQueue.global().async {
-//                if let data = try? Data(contentsOf: url) {
-//                    OperationQueue.main.addOperation {
-//                        cell.thumbnailImage.image = UIImage(data: data)
-//                    }
-//                }
-//            }
-//        }
-        
-//        meal.strMealThumb = meal.strMealThumb! + "/preview"
-//        
-//        if let urlAsString = meal.strMealThumb {
-//            if (self.myPersistence.isFileCache(fileKey: urlAsString) == false) {
-//                self.myPersistence.loadFileToCache(urlAsString: urlAsString) {
-//                    (fileData) in
-//                    OperationQueue.main.addOperation {
-//                        cell.thumbnailImage.image = UIImage(data: fileData)
-//                        print("Success! Loaded file from URL and saved to cache for \(meal.strMeal).")
-//                    }
-//                }
-//            } else {
-//                if let data = self.myPersistence.loadFileFromCache(fileKey: urlAsString) {
-//                    cell.thumbnailImage.image = UIImage(data: data)
-//                    print("Success! Loaded file directly from cache for \(meal.strMeal).")
-//                } else {
-//                    print("Error! Failed to load file from cache.")
-//                }
-//            }
-//        }
-        
-            cell.thumbnailImage.image = nil
-            cell.currentImageURL = meal.strMealThumb
-
-            guard let mealThumbURL = meal.strMealThumb else {
-                return cell
-            }
-            
-            if let cachedImage = imageCache.object(forKey: mealThumbURL as NSString) {
-                if cell.currentImageURL == meal.strMealThumb {
-                    cell.thumbnailImage.image = cachedImage
-                    print("Success! Loaded file directly from cache for \(meal.strMeal).")
-                }
-            } else {
-                if let url = URL(string: mealThumbURL) {
-                    MyConnection.loadData(from: url) { (data, response, error) in
-                        if let data = data, let image = UIImage(data: data) {
-                            self.imageCache.setObject(image, forKey: mealThumbURL as NSString)
-                            if cell.currentImageURL == meal.strMealThumb {
-                                DispatchQueue.main.async {
-                                    cell.thumbnailImage.image = image
-                                    print("Success! Loaded file from URL and saved to cache for \(meal.strMeal).")
-                                }
-                            }
-                        } else {
-                            print("Error loading image: \(String(describing: error))")
-                        }
-                    }
-                }
-            }
-
         let countryFlags: [String: String] = [
             "Afghanistani": "🇦🇫", "Albanian": "🇦🇱", "Algerian": "🇩🇿", "Andorran": "🇦🇩", "Angolan": "🇦🇴",
             "Antiguan": "🇦🇬", "Argentinian": "🇦🇷", "Armenian": "🇦🇲", "Australian": "🇦🇺", "Austrian": "🇦🇹",
@@ -328,6 +268,41 @@ extension HomeController: UITableViewDataSource {
                 cell.countryOfOrigin.text = countryWithFlag
             } else {
                 cell.countryOfOrigin.text = meal.strArea
+            }
+            cell.countryOfOrigin.isHidden = false
+        }
+        
+        cell.thumbnailImage.image = nil
+        cell.currentImageURL = meal.strMealThumb
+
+        guard let mealThumbURL = meal.strMealThumb else {
+            return cell
+        }
+        
+        if let cachedImage = imageCache.object(forKey: mealThumbURL as NSString) {
+            cell.activityIndicator.startAnimating()
+            if cell.currentImageURL == meal.strMealThumb {
+                cell.thumbnailImage.image = cachedImage
+                cell.activityIndicator.stopAnimating()
+                print("Success! Loaded file directly from cache for \(meal.strMeal).")
+            }
+        } else {
+            if let url = URL(string: mealThumbURL) {
+                cell.activityIndicator.startAnimating()
+                MyConnection.loadData(from: url) { (data, response, error) in
+                    if let data = data, let image = UIImage(data: data) {
+                        self.imageCache.setObject(image, forKey: mealThumbURL as NSString)
+                        if cell.currentImageURL == meal.strMealThumb {
+                            DispatchQueue.main.async {
+                                cell.thumbnailImage.image = image
+                                cell.activityIndicator.stopAnimating()
+                                print("Success! Loaded file from URL and saved to cache for \(meal.strMeal).")
+                            }
+                        }
+                    } else {
+                        print("Error loading image: \(String(describing: error))")
+                    }
+                }
             }
         }
         
