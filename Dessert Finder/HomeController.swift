@@ -35,6 +35,7 @@ class HomeController: UIViewController {
                     self.meals = jsonResponse.meals
                     OperationQueue.main.addOperation {
                         self.tableView.reloadData()
+                        self.getAdditionalDessertData()
                     }
                 } catch {
                     print("Decoding Error: \(error)")
@@ -45,13 +46,43 @@ class HomeController: UIViewController {
         }
         task.resume()
     }
+    
+    func getAdditionalDessertData () {
+        for index in 0..<meals.count {
+            let meal = meals[index]
+            let lookupURL = URL(string: "https://themealdb.com/api/json/v1/1/lookup.php?i=\(meal.idMeal)")!
+            let request = URLRequest(url: lookupURL)
+
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    print("HTTP Request Error: \(error)")
+                } else if let data = data {
+                    let decoder = JSONDecoder()
+                    do {
+                        let jsonResponse = try decoder.decode(Response.self, from: data)
+                        if let mealDetails = jsonResponse.meals.first {
+                            self.meals[index].strArea = mealDetails.strArea
+                            OperationQueue.main.addOperation {
+                                self.tableView.reloadData()
+                            }
+                        }
+                    } catch {
+                        print("Decoding Error: \(error)")
+                    }
+                } else {
+                    print("Unexpected HTTP Error")
+                }
+            }
+            task.resume()
+        }
+    }
 }
 
 struct Meal : Codable {
     var strMeal : String
     var strMealThumb : String
     var idMeal : String
-//    var strArea : String
+    var strArea : String?
 }
 
 struct Response : Codable {
@@ -71,7 +102,19 @@ extension HomeController: UITableViewDataSource {
         let meal = meals[indexPath.row]
         
         cell.nameOfDessert.text = meal.strMeal
-//        cell.countryOfOrigin.text = meal.strArea
+        
+        if cell.thumbnailImage.image == nil {
+            if let url = URL(string: meal.strMealThumb + "/preview") {
+                DispatchQueue.global().async {
+                    if let data = try? Data(contentsOf: url) {
+                        OperationQueue.main.addOperation {
+                            cell.thumbnailImage.image = UIImage(data: data)
+                        }
+                    }
+                }
+            }
+        }
+
         let countryFlags: [String: String] = [
             "Afghanistani": "🇦🇫", "Albanian": "🇦🇱", "Algerian": "🇩🇿", "Andorran": "🇦🇩", "Angolan": "🇦🇴",
             "Antiguan": "🇦🇬", "Argentinian": "🇦🇷", "Armenian": "🇦🇲", "Australian": "🇦🇺", "Austrian": "🇦🇹",
@@ -112,25 +155,16 @@ extension HomeController: UITableViewDataSource {
             "Vatican": "🇻🇦", "Venezuelan": "🇻🇪", "Vietnamese": "🇻🇳", "Yemeni": "🇾🇪", "Zambian": "🇿🇲", "Zimbabwean": "🇿🇼"
         ]
         
-//        if let emojiFlag = countryFlags[meal.strArea] {
-//            let countryWithFlag = emojiFlag + " " + meal.strArea
-//            cell.countryOfOrigin.text = countryWithFlag
-//        } else {
-//            cell.countryOfOrigin.text = meal.strArea // Fallback to country name if emoji flag is not available
-//        }
-        
-        // Hide the ingredients count label for now since we're not using it
-//        cell.numberOfIngredients.isHidden = true
-        
-        if let url = URL(string: meal.strMealThumb + "/preview") {
-            DispatchQueue.global().async {
-                if let data = try? Data(contentsOf: url) {
-                    OperationQueue.main.addOperation {
-                        cell.thumbnailImage.image = UIImage(data: data)
-                    }
-                }
+        if meal.strArea != nil {
+            if let emojiFlag = countryFlags[meal.strArea!] {
+                let countryWithFlag = emojiFlag + " " + meal.strArea!
+                cell.countryOfOrigin.text = countryWithFlag
+            } else {
+                cell.countryOfOrigin.text = meal.strArea
             }
         }
+        
+//        cell.numberOfIngredients.isHidden = true
         
         return cell
     }

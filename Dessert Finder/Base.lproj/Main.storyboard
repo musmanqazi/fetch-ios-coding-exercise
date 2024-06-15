@@ -63,11 +63,11 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Desert Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AWq-pz-Esd">
-                                                    <rect key="frame" x="80" y="4.6666666666666679" width="263" height="27"/>
+                                                    <rect key="frame" x="80" y="4.6666666666666679" width="293" height="27"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="27" id="JfN-bL-nVb"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -90,7 +90,7 @@
                                                 <constraint firstItem="wHm-Vg-dQx" firstAttribute="leading" secondItem="1eC-c9-211" secondAttribute="leading" constant="20" id="iBF-Iz-2nX"/>
                                                 <constraint firstItem="VcC-vb-I8v" firstAttribute="leading" secondItem="wHm-Vg-dQx" secondAttribute="trailing" constant="10" id="snV-ji-1qt"/>
                                                 <constraint firstItem="AWq-pz-Esd" firstAttribute="leading" secondItem="wHm-Vg-dQx" secondAttribute="trailing" constant="10" id="unm-mM-0vL"/>
-                                                <constraint firstAttribute="trailing" secondItem="AWq-pz-Esd" secondAttribute="trailing" constant="50" id="wdA-6k-JPV"/>
+                                                <constraint firstAttribute="trailing" secondItem="AWq-pz-Esd" secondAttribute="trailing" constant="20" id="wdA-6k-JPV"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
