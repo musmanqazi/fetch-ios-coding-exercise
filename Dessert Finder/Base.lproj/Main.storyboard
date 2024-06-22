@@ -15,14 +15,61 @@
                     <view key="view" contentMode="scaleToFill" id="ihL-cb-v0C">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Heo-9M-sia">
+                                <rect key="frame" x="30" y="123" width="333" height="175"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="175" id="Kaf-Nn-7pT"/>
+                                </constraints>
+                            </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="GwZ-ig-eEk">
+                                <rect key="frame" x="186" y="206" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Desert Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iIr-Ue-tV7">
+                                <rect key="frame" x="30" y="313" width="333" height="27"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="27" id="JzB-Jf-KA0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🏳️Country" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yff-Sf-rgr">
+                                <rect key="frame" x="30" y="355" width="333" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="lvO-W8-qGp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="S99-Av-evM"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="iIr-Ue-tV7" firstAttribute="top" secondItem="Heo-9M-sia" secondAttribute="bottom" constant="15" id="1U9-Ch-uJI"/>
+                            <constraint firstItem="S99-Av-evM" firstAttribute="trailing" secondItem="yff-Sf-rgr" secondAttribute="trailing" constant="30" id="2Zt-k5-IzC"/>
+                            <constraint firstItem="iIr-Ue-tV7" firstAttribute="leading" secondItem="S99-Av-evM" secondAttribute="leading" constant="30" id="8kD-SJ-mUq"/>
+                            <constraint firstItem="S99-Av-evM" firstAttribute="trailing" secondItem="iIr-Ue-tV7" secondAttribute="trailing" constant="30" id="FTo-9r-9UI"/>
+                            <constraint firstItem="yff-Sf-rgr" firstAttribute="top" secondItem="iIr-Ue-tV7" secondAttribute="bottom" constant="15" id="H3P-L1-SgG"/>
+                            <constraint firstItem="Heo-9M-sia" firstAttribute="leading" secondItem="S99-Av-evM" secondAttribute="leading" constant="30" id="Ru9-MW-Wjc"/>
+                            <constraint firstItem="Heo-9M-sia" firstAttribute="top" secondItem="S99-Av-evM" secondAttribute="top" constant="20" id="WHq-Ga-HVS"/>
+                            <constraint firstItem="S99-Av-evM" firstAttribute="trailing" secondItem="Heo-9M-sia" secondAttribute="trailing" constant="30" id="WMW-eg-aq9"/>
+                            <constraint firstItem="yff-Sf-rgr" firstAttribute="leading" secondItem="S99-Av-evM" secondAttribute="leading" constant="30" id="Weo-Ps-syn"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ofN-7Z-8CQ"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="GwZ-ig-eEk" id="Myf-sj-gr0"/>
+                        <outlet property="countryOfOrigin" destination="yff-Sf-rgr" id="wrx-Wy-ogv"/>
+                        <outlet property="dessertImage" destination="Heo-9M-sia" id="M0d-FM-MjV"/>
+                        <outlet property="nameOfDessert" destination="iIr-Ue-tV7" id="qi8-Av-b7h"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vpf-pZ-xSS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1772" y="-711"/>
+            <point key="canvasLocation" x="1771.7557251908397" y="-711.26760563380287"/>
         </scene>
         <!--Favorites-->
         <scene sceneID="449-wM-Rpe">
@@ -118,7 +165,7 @@
                                             <outlet property="countryOfOrigin" destination="VcC-vb-I8v" id="YKe-Bm-td7"/>
                                             <outlet property="nameOfDessert" destination="AWq-pz-Esd" id="xBb-Ao-zsQ"/>
                                             <outlet property="thumbnailImage" destination="wHm-Vg-dQx" id="2cs-H7-61z"/>
-                                            <segue destination="3Ik-Aa-Qgs" kind="show" id="Git-SW-7ig"/>
+                                            <segue destination="3Ik-Aa-Qgs" kind="show" identifier="showDetail" id="Git-SW-7ig"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

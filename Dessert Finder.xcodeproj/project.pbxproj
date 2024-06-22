@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5648471D2C2679F700E840FD /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5648471C2C2679F700E840FD /* Utilities.swift */; };
 		567008AA2C1D3A21003DC6E1 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567008A92C1D3A21003DC6E1 /* CustomTableViewCell.swift */; };
 		56CBDEE52C21C50C0068F073 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CBDEE42C21C50C0068F073 /* DetailViewController.swift */; };
 		56D85A302C1D07570030F455 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D85A2F2C1D07570030F455 /* AppDelegate.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5648471C2C2679F700E840FD /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		567008A92C1D3A21003DC6E1 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		56CBDEE42C21C50C0068F073 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		56D85A2C2C1D07570030F455 /* Dessert Finder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dessert Finder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +114,7 @@
 				56D85A3D2C1D075C0030F455 /* Info.plist */,
 				567008A92C1D3A21003DC6E1 /* CustomTableViewCell.swift */,
 				56CBDEE42C21C50C0068F073 /* DetailViewController.swift */,
+				5648471C2C2679F700E840FD /* Utilities.swift */,
 			);
 			path = "Dessert Finder";
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5648471D2C2679F700E840FD /* Utilities.swift in Sources */,
 				56D85A342C1D07570030F455 /* HomeController.swift in Sources */,
 				56D85A302C1D07570030F455 /* AppDelegate.swift in Sources */,
 				56CBDEE52C21C50C0068F073 /* DetailViewController.swift in Sources */,
