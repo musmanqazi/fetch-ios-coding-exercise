@@ -8,6 +8,22 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Detail View Controller-->
+        <scene sceneID="4xf-CY-msy">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="3Ik-Aa-Qgs" customClass="DetailViewController" customModule="Dessert_Finder" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ihL-cb-v0C">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="S99-Av-evM"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ofN-7Z-8CQ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vpf-pZ-xSS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1772" y="-711"/>
+        </scene>
         <!--Favorites-->
         <scene sceneID="449-wM-Rpe">
             <objects>
@@ -34,7 +50,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Px3-Bd-nPX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1085" y="-711"/>
+            <point key="canvasLocation" x="363" y="22"/>
         </scene>
         <!--Home-->
         <scene sceneID="tWB-Sl-fMv">
@@ -45,7 +61,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Bl5-1R-lEF">
-                                <rect key="frame" x="0.0" y="79" width="393" height="690"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" rowHeight="61" id="08k-ve-sEq" customClass="CustomTableViewCell" customModule="Dessert_Finder" customModuleProvider="target">
@@ -102,6 +118,7 @@
                                             <outlet property="countryOfOrigin" destination="VcC-vb-I8v" id="YKe-Bm-td7"/>
                                             <outlet property="nameOfDessert" destination="AWq-pz-Esd" id="xBb-Ao-zsQ"/>
                                             <outlet property="thumbnailImage" destination="wHm-Vg-dQx" id="2cs-H7-61z"/>
+                                            <segue destination="3Ik-Aa-Qgs" kind="show" id="Git-SW-7ig"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -111,19 +128,19 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Bl5-1R-lEF" firstAttribute="centerX" secondItem="nd4-WG-Aon" secondAttribute="centerX" id="00n-rb-DaA"/>
-                            <constraint firstItem="Bl5-1R-lEF" firstAttribute="top" secondItem="L4M-mI-oiR" secondAttribute="top" constant="20" id="Aq4-Ho-X0x"/>
+                            <constraint firstItem="Bl5-1R-lEF" firstAttribute="top" secondItem="L4M-mI-oiR" secondAttribute="top" id="Aq4-Ho-X0x"/>
                             <constraint firstItem="Bl5-1R-lEF" firstAttribute="bottom" secondItem="L4M-mI-oiR" secondAttribute="bottom" id="faw-sm-7xC"/>
                             <constraint firstItem="Bl5-1R-lEF" firstAttribute="leading" secondItem="L4M-mI-oiR" secondAttribute="leading" id="vNB-I0-LVq"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" image="house.fill" catalog="system" id="Sv0-iK-aca"/>
+                    <navigationItem key="navigationItem" id="5RV-ba-1go"/>
                     <connections>
                         <outlet property="tableView" destination="Bl5-1R-lEF" id="MTp-AR-nlh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cNL-D0-oTi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="362.59541984732823" y="-711.26760563380287"/>
+            <point key="canvasLocation" x="1068" y="-711"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="867-cI-dF0">
@@ -135,7 +152,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="IcL-bc-O1m" kind="relationship" relationship="viewControllers" id="0Sy-AN-jyN"/>
+                        <segue destination="1ey-06-jLq" kind="relationship" relationship="viewControllers" id="0Sy-AN-jyN"/>
                         <segue destination="waW-Ud-d3o" kind="relationship" relationship="viewControllers" id="wAe-Oj-iY1"/>
                         <segue destination="NYE-Sq-N7W" kind="relationship" relationship="viewControllers" id="sXB-Nx-TSf"/>
                     </connections>
@@ -171,7 +188,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Npa-p7-yxK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1775" y="-711"/>
+            <point key="canvasLocation" x="1068" y="22"/>
+        </scene>
+        <!--Home-->
+        <scene sceneID="vKh-T4-DNo">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1ey-06-jLq" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Home" image="house.fill" catalog="system" id="Sv0-iK-aca"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="swy-I8-gug">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="IcL-bc-O1m" kind="relationship" relationship="rootViewController" id="yTR-10-A1T"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pQp-jh-Vfq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="363" y="-711"/>
         </scene>
     </scenes>
     <resources>

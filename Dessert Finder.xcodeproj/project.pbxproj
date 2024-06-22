@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		567008AA2C1D3A21003DC6E1 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567008A92C1D3A21003DC6E1 /* CustomTableViewCell.swift */; };
+		56CBDEE52C21C50C0068F073 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CBDEE42C21C50C0068F073 /* DetailViewController.swift */; };
 		56D85A302C1D07570030F455 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D85A2F2C1D07570030F455 /* AppDelegate.swift */; };
 		56D85A322C1D07570030F455 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D85A312C1D07570030F455 /* SceneDelegate.swift */; };
 		56D85A342C1D07570030F455 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D85A332C1D07570030F455 /* HomeController.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		567008A92C1D3A21003DC6E1 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		56CBDEE42C21C50C0068F073 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		56D85A2C2C1D07570030F455 /* Dessert Finder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dessert Finder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D85A2F2C1D07570030F455 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		56D85A312C1D07570030F455 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				56D85A3A2C1D075C0030F455 /* LaunchScreen.storyboard */,
 				56D85A3D2C1D075C0030F455 /* Info.plist */,
 				567008A92C1D3A21003DC6E1 /* CustomTableViewCell.swift */,
+				56CBDEE42C21C50C0068F073 /* DetailViewController.swift */,
 			);
 			path = "Dessert Finder";
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 			files = (
 				56D85A342C1D07570030F455 /* HomeController.swift in Sources */,
 				56D85A302C1D07570030F455 /* AppDelegate.swift in Sources */,
+				56CBDEE52C21C50C0068F073 /* DetailViewController.swift in Sources */,
 				567008AA2C1D3A21003DC6E1 /* CustomTableViewCell.swift in Sources */,
 				56D85A322C1D07570030F455 /* SceneDelegate.swift in Sources */,
 			);
